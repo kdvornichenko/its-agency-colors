@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+* {
+	font-family: 'Inter', sans-serif;
+	color: $primary;
+}
+
+.container {
+	width: 100%;
+	max-width: calc(1792px + ($main-padding-x * 2));
+
+	padding: 0 $main-padding-x;
+	margin: 0 auto;
+}

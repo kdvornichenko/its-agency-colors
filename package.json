@@ -1,0 +1,33 @@
+{
+	"name": "its-agency",
+	"version": "1.0.0",
+	"description": "its-agency - frontend developer test",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Kirill Dvornichenko",
+	"homepage": "https://github.com/kdvornichenko/its-agency-colors#readme",
+	"type": "module",
+	"browserslist": [
+		"last 2 version"
+	],
+	"dependencies": {
+		"gulp": "^4.0.2",
+		"sass": "^1.60.0"
+	},
+	"devDependencies": {
+		"browser-sync": "^2.29.1",
+		"browserslist": "^4.21.5",
+		"chokidar": "^3.5.3",
+		"del": "^7.0.0",
+		"gulp-sass": "^5.1.0",
+		"gulp-autoprefixer": "^8.0.0",
+		"gulp-concat": "^2.6.1",
+		"gulp-csso": "^4.0.1",
+		"gulp-dart-sass": "^1.0.2",
+		"gulp-file-include": "^2.3.0",
+		"gulp-uglify": "^3.0.2",
+		"gulp-htmlmin": "^5.0.1"
+	}
+}
