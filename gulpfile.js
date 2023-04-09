@@ -19,7 +19,6 @@ task('html', async () => {
 				prefix: '@@',
 			})
 		)
-		.pipe(htmlmin({ collapseWhitespace: true }))
 		.pipe(dest('build'))
 })
 
