@@ -1,0 +1,12 @@
+@import 'variables.scss';
+@import 'reset.scss';
+@import 'base.scss';
+// Ui
+@import '../components/ui/Filter/Filter.scss';
+// Components
+@import '../components/Header/Header.scss';
+@import '../components/Header/Drawer.scss';
+@import '../components/MainScreen/MainScreen.scss';
+@import '../components/MainContent/MainContent.scss';
+@import '../components/MainContent/Sidebar/Sidebar.scss';
+@import '../components/MainContent/Catalog/Catalog.scss';

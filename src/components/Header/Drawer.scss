@@ -1,0 +1,41 @@
+.header {
+	&__drawer {
+		position: fixed;
+		top: $header-height-mob;
+		left: -100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: #fff;
+		transition: left $main-transition;
+		will-change: left;
+		z-index: 10;
+		&.--active {
+			left: 0;
+		}
+		@media screen and  (min-width: $md) {
+			display: none;
+		}
+		&-content {
+			margin-top: -70px;
+			padding: $main-padding-x;
+			// Navigation
+			.navigation {
+				display: block;
+				&__list {
+					flex-direction: column;
+					font-size: 14px;
+				}
+			}
+			// ToolsList
+			.tools {
+				&-list {
+					margin-top: 30px;
+					display: flex;
+					justify-content: space-between;
+				}
+			}
+		}
+	}
+}

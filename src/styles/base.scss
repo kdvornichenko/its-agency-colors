@@ -1,14 +1,60 @@
-@import './variables.scss';
+// Logo font
+@font-face {
+	font-family: 'TT Hoves';
+	src: local('TT Hoves Medium'), local('TT-Hoves-Medium'),
+		url('./assets/fonts/TTHoves-Medium.woff2') format('woff2'),
+		url('./assets/fonts/TTHoves-Medium.woff') format('woff'),
+		url('./assets/fonts/TTHoves-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
 
+html.overflow-hidden {
+	overflow: hidden;
+}
+
+body {
+	max-width: 1920px;
+	margin: 0 auto;
+}
+
+// Primary font
 * {
 	font-family: 'Inter', sans-serif;
 	color: $primary;
 }
 
-.container {
+// Conntainer
+[class*='__container'] {
 	width: 100%;
 	max-width: calc(1792px + ($main-padding-x * 2));
 
 	padding: 0 $main-padding-x;
 	margin: 0 auto;
+}
+
+h1 {
+	font-size: 72px;
+	line-height: 63px;
+	letter-spacing: -0.02em;
+}
+
+// Overlay
+.overlay {
+	position: fixed;
+	top: $header-height-mob;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: $primary;
+	opacity: 0;
+	z-index: -1;
+	transition: opacity $main-transition;
+	will-change: opacity;
+	@media screen and (min-width: $md) {
+		top: $header-height;
+	}
+	&.--active {
+		opacity: 0.7;
+	}
 }

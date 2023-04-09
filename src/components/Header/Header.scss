@@ -1,0 +1,256 @@
+// Local variables
+$logo-width: 130px;
+$logo-width-mob: 98px;
+$item-size: 24px;
+// Styles
+.header {
+	position: sticky;
+	top: 0;
+	padding: 20px 0;
+	background-color: #fff;
+	z-index: 10;
+	@media screen and (min-width: $md) {
+		padding: 25px 0;
+	}
+	@media screen and (min-width: $lg) {
+		padding: 30px 0;
+	}
+	// Container
+	&__container {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+	}
+	// Left/Right Content Blocks
+	&__content {
+		&-left,
+		&-right {
+			@media screen and (min-width: $md) {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				flex: 1;
+				gap: 10px;
+			}
+		}
+		&-left {
+			margin: 0 auto;
+			@media screen and (min-width: $md) {
+				max-width: 845px;
+				margin: 0;
+			}
+		}
+		&-right {
+			@media screen and (min-width: $md) {
+				max-width: 423px;
+			}
+		}
+	}
+	// Burger
+	&__burger {
+		position: relative;
+		@media screen and (min-width: $md) {
+			display: none;
+		}
+		width: $item-size;
+		& > span {
+			display: block;
+			width: inherit;
+			height: 2px;
+			background-color: $primary;
+			transition: all $main-transition;
+			&:first-child,
+			&:last-child {
+				position: absolute;
+			}
+			&:first-child {
+				top: -6px;
+			}
+			&:nth-child(2) {
+				transition-delay: 0.1s;
+			}
+			&:last-child {
+				bottom: -6px;
+			}
+		}
+		&.--active {
+			& > span {
+				&:first-child {
+					top: 0;
+					transform: rotate(45deg);
+					transition-delay: 0.1s;
+				}
+				&:nth-child(2) {
+					width: 0;
+					transition-delay: 0s;
+				}
+				&:last-child {
+					bottom: 0%;
+					transform: rotate(-45deg);
+					transition-delay: 0.1s;
+				}
+			}
+		}
+	}
+	// Logo
+	&__logo {
+		position: relative;
+		display: block;
+		width: 8px;
+		font-family: 'TT Hoves', sans-serif;
+		font-size: 30px;
+		font-weight: 500;
+		overflow: hidden;
+		transition: width 0.5s ease-in-out;
+		@media screen and (max-width: $lg) {
+			font-size: 22px;
+		}
+		&-container {
+			width: $logo-width;
+			display: flex;
+			@media screen and (max-width: $lg) {
+				width: $logo-width-mob;
+			}
+		}
+		&::after {
+			@include pseudo-elem($width: 8px, $height: 65%);
+			top: 4px;
+			right: 0;
+			background-color: $primary;
+			border-radius: 8px;
+			transition: all 0.3s ease-in-out;
+		}
+		&.shrink {
+			width: $logo-width;
+			@media screen and (max-width: $lg) {
+				width: $logo-width-mob;
+			}
+		}
+		&.dot {
+			&::after {
+				height: 8px;
+			}
+		}
+	}
+	// Navigation
+	.navigation {
+		display: none;
+		max-width: 542px;
+		@media screen and (min-width: $md) {
+			flex: 1;
+			display: block;
+		}
+		&__list {
+			display: flex;
+			gap: 10px;
+			justify-content: space-between;
+			font-size: 10px;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			@media screen and (min-width: $lg) {
+				font-size: 12px;
+			}
+			@media screen and (min-width: $xl) {
+				font-size: 14px;
+			}
+			& > li {
+				position: relative;
+				white-space: nowrap;
+				&::after {
+					@include pseudo-elem($width: 0, $height: 1px);
+					bottom: -2px;
+					left: 0;
+					background-color: $green;
+					transition: width $main-transition;
+				}
+				@media screen and (hover: hover) {
+					&:hover {
+						&::after {
+							width: 100%;
+						}
+					}
+				}
+			}
+		}
+	}
+	// Call
+	&__call {
+		display: none;
+		@media screen and (min-width: $md) {
+			display: flex;
+			flex-direction: column;
+			margin: 0 auto;
+		}
+		@media screen and (min-width: $xl) {
+			margin: 0;
+		}
+		&-number {
+			font-size: 12px;
+			font-weight: 500;
+			letter-spacing: -0.02em;
+			@media screen and (min-width: $lg) {
+				font-size: 14px;
+			}
+			@media screen and (min-width: $xl) {
+				font-size: 16px;
+			}
+		}
+		&-order {
+			margin-top: 2px;
+			width: fit-content;
+			font-size: 14px;
+			opacity: 0.3;
+			transition: opacity $main-transition;
+			will-change: opacity;
+			@media screen and (hover: hover) {
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+			@media screen and (max-width: $lg) {
+				font-size: 12px;
+			}
+		}
+	}
+	// Tools
+	.tools {
+		@media screen and (min-width: $md) {
+			display: flex;
+			justify-content: space-between;
+			gap: 5px;
+			flex: 1;
+			max-width: 160px;
+		}
+		&-list {
+			display: none;
+			@media screen and (min-width: $md) {
+				display: flex;
+				flex: 1;
+				max-width: 112px;
+				gap: 5px;
+				align-items: center;
+				justify-content: space-between;
+			}
+			& > li {
+				width: $item-size;
+				height: $item-size;
+			}
+		}
+		// Cart
+		&-cart {
+			width: $item-size;
+			height: $item-size;
+			background-color: $green;
+			border-radius: 100%;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			&_count {
+				font-size: 12px;
+				font-weight: 500;
+			}
+		}
+	}
+}

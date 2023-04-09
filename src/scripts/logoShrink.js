@@ -1,4 +1,5 @@
-const logo = document.querySelector('.logo')
+// Logo shrink
+const logo = document.querySelector('.header__logo')
 const logoDot = window.getComputedStyle(logo, ':after')
 
 function logoAnimate() {

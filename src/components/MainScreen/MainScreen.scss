@@ -1,0 +1,117 @@
+// Local variables
+$slider-arrow-size: 80px;
+$slider-dot-size: 6px;
+$slider-dot-bg: #fff;
+// Slider
+.slider {
+	position: relative;
+	display: none;
+	justify-content: center;
+	overflow: hidden;
+	@media screen and (min-width: $md) {
+		display: flex;
+	}
+	// Content wrapper
+	&__content {
+		display: flex;
+		transition: transform 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+		will-change: transform;
+		// Slide
+		&-slide {
+			position: relative;
+			width: 100%;
+			flex: 1 0 auto;
+			// Slide text
+			&_text {
+				max-width: 472px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				text-align: center;
+				@media screen and (max-width: $xl) {
+					max-width: 380px;
+				}
+				& > * {
+					color: #fff;
+				}
+				h1 {
+					@media screen and (max-width: $xl) {
+						font-size: calc(2rem + 2vw);
+					}
+				}
+				p {
+					margin-top: 24px;
+					line-height: 21px;
+					letter-spacing: 0.02em;
+					font-weight: 500;
+					font-size: 16px;
+					@media screen and (max-width: $xl) {
+						margin-top: 12px;
+						font-size: 14px;
+					}
+				}
+			}
+		}
+	}
+	// Control arrows
+	&__arrows {
+		width: 100%;
+		max-width: calc(980px + ($slider-arrow-size * 2));
+		height: fit-content;
+		display: flex;
+		justify-content: space-between;
+		position: absolute;
+		bottom: 25%;
+		// Prev, Next
+		&-prev,
+		&-next {
+			width: $slider-arrow-size;
+			height: $slider-arrow-size;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: opacity $main-transition;
+			will-change: opacity;
+			&:hover {
+				opacity: 0.5;
+				cursor: pointer;
+			}
+		}
+		&-prev {
+			transform: rotate(180deg);
+		}
+		&-hidden {
+			opacity: 0;
+		}
+	}
+	// Dots
+	&__dots {
+		display: flex;
+		gap: 8px;
+		padding: 13px 29px;
+		background: rgba(0, 0, 0, 0.4);
+		border-radius: 16px;
+		position: absolute;
+		bottom: 39px;
+		left: 50%;
+		transform: translateX(-50%);
+		@media screen and (max-width: $xl) {
+			padding: 10px 20px;
+			bottom: 5%;
+		}
+		&-item {
+			width: $slider-dot-size;
+			height: $slider-dot-size;
+			border-radius: 50%;
+			background-color: $slider-dot-bg;
+			opacity: 0.2;
+			transition: opacity 0.5s ease-in-out;
+			will-change: opacity;
+			cursor: pointer;
+			&.active {
+				opacity: 1;
+			}
+		}
+	}
+}

@@ -4,17 +4,32 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
-			rel="stylesheet"
-		/>
+		@@include('components/Head/Favicon.html')
+		@@include('components/Head/Fonts.html')
 		<link rel="stylesheet" href="index.css" />
-		<title>Document</title>
+		<title>COLORS | ITS-Agency</title>
 	</head>
 	<body>
-		@@include('components/header.html')
+		<header class="header">@@include('components/Header/Header.html')</header>
+		<main>
+			<!-- Overlay -->
+			<div class="overlay"></div>
+			<!-- Slider -->
+			<section class="slider">
+				@@include('components/MainScreen/MainScreen.html')
+			</section>
+			<!-- Main Content -->
+			<section class="content">
+				<div class="sidebar">
+					<div class="filter">
+						@@include('components/ui/Filter/Filter.html')
+					</div>
+				</div>
+				<div class="catalog">
+					@@include('components/MainContent/Catalog/Catalog.html')
+				</div>
+			</section>
+		</main>
 		<script src="script.js"></script>
 	</body>
 </html>

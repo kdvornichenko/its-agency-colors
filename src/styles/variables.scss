@@ -4,4 +4,25 @@ $green: #7bb899;
 $light-gray: #f2f2f2;
 
 // Spacing
+$xs: 375px;
+$sx: 425px;
+$sm: 640px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1280px;
+$xl2: 1536px;
+
 $main-padding-x: 24px;
+
+$header-height: 90px;
+$header-height-mob: 67px;
+// Transitions
+$main-transition: 0.2s ease-in-out;
+
+// Mixins
+@mixin pseudo-elem($width, $height) {
+	content: '';
+	position: absolute;
+	width: $width;
+	height: $height;
+}

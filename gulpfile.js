@@ -8,8 +8,7 @@ import concat from 'gulp-concat'
 import autoPrefixer from 'gulp-autoprefixer'
 import chokidar from 'chokidar'
 import dartSass from 'gulp-dart-sass'
-import uglify from 'gulp-uglify'
-
+import image from 'gulp-image'
 const { series, parallel, src, dest, task } = gulp
 
 // Сборка HTML
@@ -21,12 +20,12 @@ task('html', async () => {
 			})
 		)
 		.pipe(htmlmin({ collapseWhitespace: true }))
-		.pipe(dest('dist'))
+		.pipe(dest('build'))
 })
 
 // Сборка, автопрефиксы, минификация SCSS
 task('scss', async () => {
-	return src('./src/**/**.scss')
+	return src('./src/styles/index.scss')
 		.pipe(dartSass().on('error', dartSass.logError))
 		.pipe(
 			autoPrefixer({
@@ -35,32 +34,41 @@ task('scss', async () => {
 		)
 		.pipe(csso())
 		.pipe(concat('index.css'))
-		.pipe(dest('dist'))
+		.pipe(dest('build'))
 })
 
 // Сборка JS
 task('js', async () => {
-	return (
-		src('./src/scripts/**.js')
-			.pipe(concat('script.js'))
-			// .pipe(uglify())
-			.pipe(dest('dist'))
-	)
+	return src('./src/scripts/**.js')
+		.pipe(concat('script.js'))
+		.pipe(dest('build'))
+})
+
+// Сборка изображений
+gulp.task('image', async () => {
+	gulp.src('./src/assets/**/**').pipe(image()).pipe(gulp.dest('build/assets'))
+})
+
+gulp.task('favicon', async () => {
+	gulp.src('./src/public/favicon/*').pipe(gulp.dest('build/public/favicon'))
 })
 
 // Очистка build папки
 task('clear', () => {
-	return deleteAsync('dist')
+	return deleteAsync('build/*')
 })
 
 // Дефолтная таска
-task('default', series('clear', parallel('html', 'scss', 'js')))
+task(
+	'default',
+	series('clear', parallel('html', 'scss', 'js', 'image', 'favicon'))
+)
 
 // Watch
 const watch = () => {
 	sync.init({
 		server: {
-			baseDir: 'dist',
+			baseDir: 'build',
 		},
 		reloadOnRestart: false,
 	})
@@ -71,7 +79,7 @@ const watch = () => {
 		})
 		.on('all', (event, path) => {
 			console.log(`File ${path} has been ${event}`)
-			series('html', 'scss', 'js')()
+			series('html', 'scss', 'js', 'image', 'favicon')()
 			sync.reload()
 		})
 }
