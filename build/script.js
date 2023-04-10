@@ -104,6 +104,9 @@ function renderCart(cartData) {
 			if (
 				event.target.classList.contains('cart__products-card_counter_value')
 			) {
+				if (event.target.value === '') {
+					event.target.value = 1
+				}
 				updateCartData()
 			}
 		})
