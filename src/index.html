@@ -10,7 +10,13 @@
 		<title>COLORS | ITS-Agency</title>
 	</head>
 	<body>
-		<header class="header">@@include('components/Header/Header.html')</header>
+		<header class="header">
+			@@include('components/Header/Header.html')
+			<div class="header__divider">
+				<div class="header__divider-content"></div>
+			</div>
+		</header>
+
 		<div class="cart">@@include('components/Cart/Cart.html')</div>
 		@@include('components/Breadcrumbs/Breadcrumbs.html')
 		<main>
@@ -33,6 +39,7 @@
 				</div>
 			</section>
 		</main>
+		<footer class="footer"></footer>
 		<script src="script.js"></script>
 	</body>
 </html>

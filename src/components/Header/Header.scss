@@ -2,18 +2,32 @@
 $logo-width: 130px;
 $logo-width-mob: 98px;
 $item-size: 24px;
+$header-y-offset: 20px;
 // Styles
 .header {
 	position: sticky;
 	top: 0;
-	padding: 20px 0;
+	padding-top: $header-y-offset;
 	background-color: #fff;
 	z-index: 10;
 	@media screen and (min-width: $md) {
 		padding: 25px 0;
+		border-bottom: 1px solid rgba($color: $primary, $alpha: 0.06);
 	}
 	@media screen and (min-width: $lg) {
 		padding: 30px 0;
+	}
+	&__divider {
+		padding: 0 $main-padding-x;
+		margin-top: $header-y-offset;
+		@media screen and (min-width: $md) {
+			display: none;
+		}
+		&-content {
+			width: 100%;
+			height: 1px;
+			background-color: rgba($color: $primary, $alpha: 0.06);
+		}
 	}
 	// Container
 	&__container {
