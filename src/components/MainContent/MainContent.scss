@@ -3,6 +3,7 @@
 	padding: 0 $main-padding-x;
 	display: flex;
 	justify-content: space-between;
+	min-height: 300px;
 	@media screen and (min-width: $lg) {
 		margin-top: 77px;
 		padding: 0 64px;
