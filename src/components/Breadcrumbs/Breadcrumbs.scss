@@ -1,0 +1,44 @@
+// Local variables
+$breadcrumbs-gap: 20px;
+$breadcrumbs-dot-size: 3px;
+.breadcrumbs {
+	padding: 0 $main-padding-x;
+	@media screen and (min-width: $md) {
+		position: absolute;
+		top: 32px;
+		left: auto;
+		width: 100%;
+		max-width: $page-max-width;
+	}
+	& > ul {
+		border-top: 1px solid rgba($color: $primary, $alpha: 0.06);
+		padding-top: 16px;
+		display: flex;
+		align-content: center;
+		gap: $breadcrumbs-gap;
+		& > li {
+			font-size: 10px;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: $primary;
+			opacity: 0.3;
+			@media screen and (min-width: $md) {
+				color: #fff;
+			}
+			&:not(:last-child) {
+				position: relative;
+				&::after {
+					@include pseudo-elem(
+						$width: $breadcrumbs-dot-size,
+						$height: $breadcrumbs-dot-size
+					);
+					background-color: #c4c4c4;
+					border-radius: 100%;
+					top: 50%;
+					translate: 0 -50%;
+					right: -(calc($breadcrumbs-dot-size/2 + $breadcrumbs-gap/2));
+				}
+			}
+		}
+	}
+}
