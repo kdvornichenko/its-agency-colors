@@ -1,6 +1,6 @@
 // Получаем элементы из DOM
-const cart = document.querySelector('.tools-cart')
-const cartCount = cart.querySelector('.tools-cart_count')
+const cartButton = document.querySelector('.tools-cart')
+const cartCount = cartButton.querySelector('.tools-cart_count')
 const catalogProductsCount = document.querySelector(
 	'.catalog__header-count span'
 )
@@ -169,9 +169,14 @@ fetch(CATALOG_API)
 	})
 
 // Получаем данные корзины из локального хранилища
-let cartData = JSON.parse(localStorage.getItem('cartData')) || []
+let cartData
+function getCartData() {
+	cartData = JSON.parse(localStorage.getItem('cartData')) || []
+}
+getCartData()
 // Функция для добавления товара в корзину
 function addToCart(product) {
+	getCartData()
 	// Ищем, есть ли уже такой товар в корзине
 	const existingProductIndex = cartData.findIndex(
 		(item) => item.id === product.id
@@ -184,7 +189,6 @@ function addToCart(product) {
 		// Если товара еще нет в корзине, добавляем его
 		cartData.push(product)
 	}
-
 	// Сохраняем обновленные данные корзины в локальное хранилище
 	localStorage.setItem('cartData', JSON.stringify(cartData))
 }
@@ -201,23 +205,23 @@ catalogProducts.addEventListener('click', (event) => {
 			'.product-card__title'
 		).textContent
 		const productPrice = productCard.querySelector(
-			'.product-card__price'
-		).textContent
+			'.product-card__price span'
+		).innerText
 		const productImage = productCard.querySelector('.product-card__image').src
 		// Получаем id товара
 		const productId = productCard.dataset.id
 		// Создаем объект с данными карточки
 		const product = {
-			id: productId,
+			id: Number(productId),
 			title: productTitle,
-			price: productPrice,
+			price: Number(productPrice),
 			image: productImage,
 			quantity: 1,
 		}
 		// Добавляем товар в корзину
 		addToCart(product)
 		// Изменяем счетчик товаров в корзине
-		changeCartCount()
+		changeCartCountInHeader()
 	}
 })
 
@@ -238,9 +242,13 @@ function setCards(cardsData) {
 			product.title
 		} />
         </div>
-        <h3 class="product-card__title">${product.title}</h3>
+        <h4 class="product-card__title">${product.title}</h4>
         <div class="product-card__bottom">
-          <span class="product-card__price">${product.price}₽</span>
+          <span class="product-card__price">
+						<span>
+						${product.price}
+						</span>
+					₽</span>
           <button class="product-card__button ${isInCart ? '--active' : ''}">
             <span></span>
           </button>
@@ -249,11 +257,18 @@ function setCards(cardsData) {
 		// Добавляем карточку товара в блок
 		catalogProducts.insertAdjacentHTML('beforeend', productCard)
 	})
-	changeCartCount()
+	changeCartCountInHeader()
 	catalogProductsCount.textContent = cardsData.length
 }
 
 // Корзина
-function changeCartCount() {
-	cartCount.textContent = cartData.length
+function changeCartCountInHeader() {
+	const totalQuantity = cartData.reduce(
+		(acc, product) => acc + product.quantity,
+		0
+	)
+	cartCount.textContent = totalQuantity
+	return totalQuantity
 }
+
+cartButton.addEventListener('click', () => renderCart(cartData))

@@ -6,6 +6,7 @@ $light-gray: #f2f2f2;
 // Spacing
 $xs: 375px;
 $sx: 425px;
+$sx2: 475px;
 $sm: 640px;
 $md: 768px;
 $lg: 1024px;
@@ -13,9 +14,12 @@ $xl: 1280px;
 $xl2: 1536px;
 
 $main-padding-x: 24px;
+$page-max-width: calc(1792px + $main-padding-x);
 
 $header-height: 90px;
 $header-height-mob: 67px;
+
+$catalog-mt: 48px;
 // Transitions
 $main-transition: 0.2s ease-in-out;
 
@@ -25,4 +29,19 @@ $main-transition: 0.2s ease-in-out;
 	position: absolute;
 	width: $width;
 	height: $height;
+}
+
+@mixin cross($width, $height, $background-color) {
+	position: relative;
+	display: block;
+	width: $width;
+	height: $height;
+	background-color: $background-color;
+	&::after {
+		@include pseudo-elem($width: inherit, $height: inherit);
+		background-color: inherit;
+		top: 50%;
+		left: 50%;
+		rotate: 90deg;
+	}
 }

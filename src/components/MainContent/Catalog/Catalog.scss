@@ -1,15 +1,34 @@
+// Local variables
+$sort-right-offset: -15px;
+// Catalog
 .catalog {
 	width: 100%;
 	max-width: 1486px;
 	// Catalog Header
 	&__header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		font-size: 12px;
-		font-weight: 500;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
+		@media screen and (min-width: $md) {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		&-title {
+			@media screen and (min-width: $md) {
+				display: none;
+			}
+		}
+		&-content {
+			margin-top: $catalog-mt;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			font-size: 12px;
+			font-weight: 500;
+			text-transform: uppercase;
+			letter-spacing: 0.06em;
+			@media screen and (min-width: $md) {
+				margin-top: 0;
+			}
+		}
 		&-count {
 			display: none;
 			@media screen and (min-width: $md) {
@@ -24,6 +43,7 @@
 		&-sort {
 			position: relative;
 			cursor: pointer;
+			margin-right: -$sort-right-offset;
 			&_current {
 				display: block;
 				&::after {
@@ -31,7 +51,7 @@
 					top: 0;
 					bottom: 0;
 					margin: auto 0;
-					right: -15px;
+					right: $sort-right-offset;
 					background: {
 						image: url('/assets/icons/sort-arrow.svg');
 						position: center;
@@ -91,7 +111,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
-		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
 		padding-bottom: 34px;
 		@media screen and (max-width: $sx) {
 			margin: 0 auto;
@@ -115,12 +135,6 @@
 				align-items: center;
 				justify-content: center;
 			}
-		}
-		// Product Title
-		&__title {
-			font-weight: 300;
-			line-height: 18px;
-			letter-spacing: 0.02em;
 		}
 		// Product Bottom
 		&__bottom {
@@ -160,7 +174,7 @@
 					top: 50%;
 					left: 50%;
 					border-radius: 2px;
-					transform: translate(-50%, -50%);
+					translate: -50% -50%;
 					transition: all $main-transition;
 				}
 			}
@@ -170,11 +184,13 @@
 				background-color: $green;
 				& > span {
 					&::before {
-						transform: translate(-100%, 5%) rotate(45deg);
+						translate: -100% 5%;
+						rotate: 45deg;
 						width: 10px;
 					}
 					&::after {
-						transform: translate(25%, -50%) rotate(45deg);
+						translate: 25% -50%;
+						rotate: 45deg;
 					}
 				}
 			}

@@ -78,7 +78,7 @@ const watch = () => {
 		})
 		.on('all', (event, path) => {
 			console.log(`File ${path} has been ${event}`)
-			series('html', 'scss', 'js', 'image', 'favicon')()
+			series('html', 'scss', 'js', 'favicon')()
 			sync.reload()
 		})
 }

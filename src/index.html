@@ -11,12 +11,15 @@
 	</head>
 	<body>
 		<header class="header">@@include('components/Header/Header.html')</header>
+		<div class="cart">@@include('components/Cart/Cart.html')</div>
+		@@include('components/Breadcrumbs/Breadcrumbs.html')
 		<main>
 			<!-- Overlay -->
 			<div class="overlay"></div>
 			<!-- Slider -->
 			<section class="slider">
-				@@include('components/MainScreen/MainScreen.html')
+				@@include('components/FirstScreen/FirstScreen.html')
+				@@include('components/Breadcrumbs/Breadcrumbs.html')
 			</section>
 			<!-- Main Content -->
 			<section class="content">

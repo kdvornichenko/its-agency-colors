@@ -27,7 +27,7 @@ body {
 // Conntainer
 [class*='__container'] {
 	width: 100%;
-	max-width: calc(1792px + ($main-padding-x * 2));
+	max-width: $page-max-width;
 
 	padding: 0 $main-padding-x;
 	margin: 0 auto;
@@ -37,6 +37,25 @@ h1 {
 	font-size: 72px;
 	line-height: 63px;
 	letter-spacing: -0.02em;
+}
+
+h2 {
+	font-size: 36px;
+	line-height: 32px;
+	letter-spacing: -0.04em;
+}
+
+h3 {
+	font-weight: 500;
+	font-size: 30px;
+	line-height: 26px;
+	letter-spacing: -0.04em;
+}
+
+h4 {
+	font-weight: 300;
+	line-height: 18px;
+	letter-spacing: 0.02em;
 }
 
 // Overlay

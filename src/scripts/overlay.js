@@ -8,6 +8,7 @@ function overlayToggle() {
 		burger.classList.remove('--active')
 		catalogProductsSortList.classList.remove('--active')
 		filter.classList.remove('--active')
+		cart.classList.remove('--active')
 		filter.style.bottom = '-100%'
 		setTimeout(() => {
 			overlay.style.zIndex = '-1'

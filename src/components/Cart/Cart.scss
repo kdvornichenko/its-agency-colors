@@ -1,0 +1,229 @@
+// Local variables
+$close-button: 48px;
+$cross-size-1: 17px;
+$cross-size-2: 2px;
+$image-size: 96px;
+$counter-button-width: 40px;
+$counter-button-height: 24px;
+$counter-border-radius: 4px;
+// Cart
+.cart {
+	position: fixed;
+	top: 0;
+	right: -100%;
+	width: 100%;
+	max-width: 600px;
+	height: 100%;
+	padding: 40px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color: #fff;
+	transition: right $main-transition;
+	z-index: 10;
+	@media screen and (max-width: $sx2) {
+		padding: 16px;
+	}
+	&.--active {
+		right: 0;
+	}
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	&__cross {
+		position: relative;
+		width: $close-button;
+		height: $close-button;
+		border: 1px solid rgba($color: #000000, $alpha: 0.1);
+		border-radius: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		rotate: 45deg;
+		cursor: pointer;
+		& > span {
+			@include cross(
+				$width: $cross-size-1,
+				$height: $cross-size-2,
+				$background-color: $primary
+			);
+			&::after {
+				translate: -45% -50%;
+			}
+		}
+	}
+	&__products {
+		height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+		padding-right: 10px;
+		margin-top: 10px;
+		&::-webkit-scrollbar {
+			width: 5px;
+			background-color: transparent;
+		}
+		&::-webkit-scrollbar-thumb {
+			background-color: $light-gray;
+			border-radius: 10px;
+		}
+		&::-webkit-scrollbar-track {
+			background-color: transparent;
+		}
+		&::-webkit-scrollbar-thumb:hover {
+			background-color: #999;
+		}
+		&-top {
+			margin-top: 94px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			@media screen and (max-width: $xl) {
+				margin-top: 70px;
+			}
+			@media screen and (max-width: $lg) {
+				margin-top: 60px;
+			}
+			@media screen and (max-width: $md) {
+				margin-top: 50px;
+			}
+			@media screen and (max-width: $sx2) {
+				margin-top: 40px;
+			}
+		}
+		&-clear {
+			font-weight: 300;
+			font-size: 14px;
+			line-height: 16px;
+			opacity: 0.4;
+			transition: opacity $main-transition;
+			&:hover {
+				opacity: 1;
+			}
+		}
+		&-card {
+			padding: 12px 0;
+			display: flex;
+			align-items: center;
+			border-top: 1px solid rgba($color: #000000, $alpha: 0.1);
+			&_image {
+				width: $image-size;
+				height: $image-size;
+			}
+			&_content {
+				display: flex;
+				align-items: center;
+				flex: 1 1;
+				justify-content: space-between;
+				@media screen and (max-width: $sx2) {
+					flex-direction: column;
+					align-items: flex-start;
+					margin-left: 20px;
+				}
+			}
+			&_info {
+				margin-left: 8px;
+				width: 100%;
+				max-width: 165px;
+			}
+			&_price {
+				margin-top: 16px;
+				font-weight: 600;
+				@media screen and (max-width: $sx2) {
+					margin-top: 8px;
+				}
+			}
+			&_counter {
+				margin-left: auto;
+				display: flex;
+				align-items: center;
+				gap: 2px;
+				@media screen and (max-width: $sx2) {
+					margin-left: 0;
+					margin-top: 8px;
+				}
+				& > button {
+					width: $counter-button-width;
+					height: $counter-button-height;
+					background-color: $light-gray;
+					border-radius: $counter-border-radius;
+				}
+				& > input {
+					text-align: center;
+					max-width: 40px;
+					&:focus {
+						border: 1px solid $light-gray;
+						border-radius: $counter-border-radius;
+					}
+				}
+			}
+			&_delete {
+				margin-left: 37px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: $cross-size-1;
+				height: $cross-size-1;
+				rotate: 45deg;
+				opacity: 0.2;
+				transition: opacity $main-transition;
+				cursor: pointer;
+				@media screen and (max-width: $sx2) {
+					margin-left: auto;
+				}
+				& > span {
+					@include cross(
+						$width: $cross-size-1,
+						$height: $cross-size-2,
+						$background-color: $primary
+					);
+					&::after {
+						translate: -50% -50%;
+					}
+				}
+				&:hover {
+					opacity: 0.8;
+				}
+			}
+		}
+	}
+	&__bottom {
+		margin-top: 30px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		@media screen and (max-width: $sx2) {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+	&__amount {
+		@media screen and (max-width: $sx2) {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+		}
+		&-total {
+			font-weight: 500;
+			font-size: 30px;
+			line-height: 30px;
+			letter-spacing: -0.02em;
+		}
+	}
+	&__order {
+		padding: 20px 58px;
+		background-color: $green;
+		border-radius: 4px;
+		font-weight: 500;
+		font-size: 12px;
+		text-align: center;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		@media screen and (max-width: $sx2) {
+			width: 100%;
+			margin-top: 10px;
+		}
+	}
+}

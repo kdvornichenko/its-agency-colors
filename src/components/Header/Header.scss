@@ -78,7 +78,7 @@ $item-size: 24px;
 			& > span {
 				&:first-child {
 					top: 0;
-					transform: rotate(45deg);
+					rotate: 45deg;
 					transition-delay: 0.1s;
 				}
 				&:nth-child(2) {
@@ -87,7 +87,7 @@ $item-size: 24px;
 				}
 				&:last-child {
 					bottom: 0%;
-					transform: rotate(-45deg);
+					rotate: -45deg;
 					transition-delay: 0.1s;
 				}
 			}
@@ -241,12 +241,12 @@ $item-size: 24px;
 		&-cart {
 			width: $item-size;
 			height: $item-size;
-			background-color: $green;
-			border-radius: 100%;
-
 			display: flex;
 			align-items: center;
 			justify-content: center;
+			background-color: $green;
+			border-radius: 100%;
+			cursor: pointer;
 			&_count {
 				font-size: 12px;
 				font-weight: 500;

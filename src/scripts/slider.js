@@ -4,7 +4,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	const sliderPrev = document.querySelector('.slider__arrows-prev')
 	const sliderNext = document.querySelector('.slider__arrows-next')
 	const slides = sliderContent.querySelectorAll('img')
-	const slideWidth = slides[0].clientWidth
 	const sliderCount = slides.length
 
 	// Генерация точек, в зависимости от кол-ва слайдов
@@ -16,6 +15,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 		sliderDotsContainer.appendChild(dot)
 	}
+
 	const sliderDots = document.querySelectorAll('.slider__dots-item')
 
 	let currentSlide = 0
@@ -26,7 +26,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function switchSlide(index) {
-		sliderContent.style.transform = `translateX(-${slideWidth * index}px)`
+		sliderContent.style.transform = `translateX(-${
+			slides[0].clientWidth * index
+		}px)`
 		setActiveDot(index)
 		currentSlide = index
 	}

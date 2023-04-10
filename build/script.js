@@ -1,3 +1,206 @@
+const cart = document.querySelector('.cart')
+const cartProducts = cart.querySelector('.cart__products-cards')
+const cartCloseButton = cart.querySelector('.cart__cross')
+const cartProductsCount = cart.querySelector('.cart__products-count span')
+const cartProductsClear = cart.querySelector('.cart__products-clear')
+const cartProductsTotal = cart.querySelector('.cart__amount-total span')
+// Закрытие корзины
+cartCloseButton.addEventListener('click', () => {
+	cart.classList.remove('--active')
+	overlayToggle()
+})
+// Обновление кол-ва товаров в корзине
+function updateCartCount(totalQuantity) {
+	cartProductsCount.textContent = totalQuantity
+}
+// Обновление стоимости товаров
+function updateCartTotal(totalAmount) {
+	cartProductsTotal.textContent = totalAmount
+}
+// Создание карточки товара
+function createProductCard(product) {
+	return `
+    <div data-id="${product.id}" class="cart__products-card">
+      <div class="cart__products-card_image">
+        <img src="${product.image}" alt="${product.title}" />
+      </div>
+			<div class="cart__products-card_content">
+				<div class="cart__products-card_info">
+					<h4>${product.title}</h4>
+					<div class="cart__products-card_price">${product.price}₽</div>
+				</div>
+				<div class="cart__products-card_counter">
+					<button class="cart__products-card_counter_decr">-</button>
+					<input type="number" class="cart__products-card_counter_value" value="${product.quantity}" max="999" min="1" />
+					<button class="cart__products-card_counter_incr">+</button>
+				</div>
+				</div>
+				<div class="cart__products-card_delete">
+					<span></span>
+				</div>
+		</div>`
+}
+// Функция рендера товаров в корзине
+function renderCart(cartData) {
+	// Открываем корзину
+	cart.classList.add('--active')
+	// Включаем оверлей
+	overlayToggle()
+	// Получаем начальное кол-во товара
+	const totalQuantity = changeCartCountInHeader()
+	// Получаем общую стоимость товара
+	const totalAmount = getTotalAmount(cartData)
+	// Функция для подсчета общей стоимости
+	function getTotalAmount(cartData) {
+		let totalAmount = 0
+		for (const product of cartData) {
+			totalAmount += product.price * product.quantity
+		}
+		return totalAmount
+	}
+	// Обновляем стоимость и кол-во товара
+	updateCartTotal(totalAmount)
+	updateCartCount(totalQuantity)
+
+	// Очищаем блок перед добавлением новых карточек
+	cartProducts.innerHTML = ''
+
+	// Для каждого элемента данных создаем карточку и добавляем ее в блок
+	for (const product of cartData) {
+		// Создаем карточку товара
+		const productCard = createProductCard(product)
+		// Добавляем карточку товара в блок
+		cartProducts.insertAdjacentHTML('beforeend', productCard)
+	}
+	// Счетчик
+	const counterContainer = cart.querySelectorAll('.cart__products-card_counter')
+	// Вешаем обработчик клика на все счетчики, если в корзине есть товары
+	counterContainer?.forEach((counter) => {
+		counter.addEventListener('click', (event) => {
+			// Проверяем таргет на кнопку уменьшение
+			if (event.target.classList.contains('cart__products-card_counter_decr')) {
+				const counterValue = event.target.nextElementSibling
+				let newValue = parseInt(counterValue.value) - 1
+				if (newValue < 1) {
+					newValue = 1
+				}
+				counterValue.value = newValue
+				updateCartData()
+			} else if (
+				// Проверяем таргет на кнопку увеличения
+				event.target.classList.contains('cart__products-card_counter_incr')
+			) {
+				const counterValue = event.target.previousElementSibling
+				let newValue = parseInt(counterValue.value) + 1
+				counterValue.value = newValue
+				updateCartData()
+			}
+		})
+	})
+
+	// Вешаем обработчик ввода на все счетчики, если в корзине есть товары
+	counterContainer?.forEach((counterInput) => {
+		counterInput.addEventListener('input', (event) => {
+			if (
+				event.target.classList.contains('cart__products-card_counter_value')
+			) {
+				updateCartData()
+			}
+		})
+	})
+	// Удаление товара
+	const deleteButtons = cart.querySelectorAll('.cart__products-card_delete')
+	// Вешаем обработчик клика на кнопку удаления товара
+	deleteButtons.forEach((button) => {
+		button.addEventListener('click', () => {
+			// Записываем ID удаляемого товара
+			const productId = parseInt(button.parentElement.dataset.id)
+			// Находим этот товар в массиве товаров
+			const existingProductIndex = cartData.findIndex(
+				(product) => product.id === productId
+			)
+
+			if (existingProductIndex !== -1) {
+				// Удаляем его из массива
+				cartData.splice(existingProductIndex, 1)
+				// Функция обновления данных в корзине
+				updateCartData()
+				// Удаляем карточку товара из корзины
+				button.parentNode.remove()
+				// Обновляем счетчик кол-ва товара в корзине
+				changeCartCountInHeader()
+				// Находим данный товар на странице и отключаем активность кнопки
+				const deleteProduct = document.querySelector(
+					`[data-id="${productId}"].product-card`
+				)
+				deleteProduct.querySelector('button').classList.remove('--active')
+			}
+		})
+	})
+	updateCartData()
+}
+// Функция обновления корзины
+function updateCartData() {
+	// Проверяем наличие товаров в корзине, иначе обнуляем данные
+	if (!cartData.length) {
+		localStorage.removeItem('cartData')
+		updateCartCount(0)
+		cartProductsTotal.textContent = 0
+		return
+	}
+	// Записываем все карточки товаров
+	const cartProducts = cart.querySelectorAll('.cart__products-card')
+	// Инициализируем кол-во товаров
+	let totalQuantity = 0
+	// Инициализируем кол-во товаров
+	let totalAmount = 0
+	cartProducts.forEach((productCard) => {
+		// Для каждой карнточки товара
+		// Находим ID
+		const productId = parseInt(productCard.dataset.id)
+		// Находим инпут
+		const quantityInput = productCard.querySelector(
+			'.cart__products-card_counter_value'
+		)
+		// Кол-во товара в инпуте
+		const quantity = parseInt(quantityInput.value)
+		// Находим этот товар в массиве
+		const existingProduct = cartData.find((product) => product.id === productId)
+		if (existingProduct) {
+			// Обновляем кол-во товара в массиве
+			existingProduct.quantity = quantity
+			// Обновляем общую стоимость товаров
+			totalAmount += existingProduct.price * existingProduct.quantity
+			// Обновляем кол-во товаров
+			totalQuantity += quantity
+		}
+	})
+	// Обновляем данные в localStorage
+	localStorage.setItem('cartData', JSON.stringify(cartData))
+	// Обновляем кол-во товара в корзине
+	updateCartCount(totalQuantity)
+	// Обновляем общую стоимость товара в корзине
+	updateCartTotal(totalAmount)
+}
+// Очистка корзины, вешаем случшатель клика на кнопку
+cartProductsClear.addEventListener('click', () => {
+	// Удаляем все карточки из корзины
+	cartProducts.innerHTML = ''
+	cartData = []
+	// Ставим кол-во товаров в 0
+	updateCartData()
+	changeCartCountInHeader()
+
+	localStorage.setItem('cartData', JSON.stringify([]))
+	// Находим все активные кнопки в каталоге и удаляем активный класс
+	const catalogCardButtons = document.querySelectorAll(
+		'.product-card__button.--active'
+	)
+	catalogCardButtons.forEach((button) => {
+		button.classList.contains('--active') && button.classList.remove('--active')
+	})
+})
+
 const burger = document.querySelector('.header__burger')
 const drawer = document.querySelector('.header__drawer')
 const overlay = document.querySelector('.overlay')
@@ -36,6 +239,7 @@ function overlayToggle() {
 		burger.classList.remove('--active')
 		catalogProductsSortList.classList.remove('--active')
 		filter.classList.remove('--active')
+		cart.classList.remove('--active')
 		filter.style.bottom = '-100%'
 		setTimeout(() => {
 			overlay.style.zIndex = '-1'
@@ -51,7 +255,6 @@ window.addEventListener('DOMContentLoaded', () => {
 	const sliderPrev = document.querySelector('.slider__arrows-prev')
 	const sliderNext = document.querySelector('.slider__arrows-next')
 	const slides = sliderContent.querySelectorAll('img')
-	const slideWidth = slides[0].clientWidth
 	const sliderCount = slides.length
 
 	// Генерация точек, в зависимости от кол-ва слайдов
@@ -63,6 +266,7 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 		sliderDotsContainer.appendChild(dot)
 	}
+
 	const sliderDots = document.querySelectorAll('.slider__dots-item')
 
 	let currentSlide = 0
@@ -73,7 +277,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function switchSlide(index) {
-		sliderContent.style.transform = `translateX(-${slideWidth * index}px)`
+		sliderContent.style.transform = `translateX(-${
+			slides[0].clientWidth * index
+		}px)`
 		setActiveDot(index)
 		currentSlide = index
 	}
@@ -102,8 +308,8 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 // Получаем элементы из DOM
-const cart = document.querySelector('.tools-cart')
-const cartCount = cart.querySelector('.tools-cart_count')
+const cartButton = document.querySelector('.tools-cart')
+const cartCount = cartButton.querySelector('.tools-cart_count')
 const catalogProductsCount = document.querySelector(
 	'.catalog__header-count span'
 )
@@ -272,9 +478,14 @@ fetch(CATALOG_API)
 	})
 
 // Получаем данные корзины из локального хранилища
-let cartData = JSON.parse(localStorage.getItem('cartData')) || []
+let cartData
+function getCartData() {
+	cartData = JSON.parse(localStorage.getItem('cartData')) || []
+}
+getCartData()
 // Функция для добавления товара в корзину
 function addToCart(product) {
+	getCartData()
 	// Ищем, есть ли уже такой товар в корзине
 	const existingProductIndex = cartData.findIndex(
 		(item) => item.id === product.id
@@ -287,7 +498,6 @@ function addToCart(product) {
 		// Если товара еще нет в корзине, добавляем его
 		cartData.push(product)
 	}
-
 	// Сохраняем обновленные данные корзины в локальное хранилище
 	localStorage.setItem('cartData', JSON.stringify(cartData))
 }
@@ -304,23 +514,23 @@ catalogProducts.addEventListener('click', (event) => {
 			'.product-card__title'
 		).textContent
 		const productPrice = productCard.querySelector(
-			'.product-card__price'
-		).textContent
+			'.product-card__price span'
+		).innerText
 		const productImage = productCard.querySelector('.product-card__image').src
 		// Получаем id товара
 		const productId = productCard.dataset.id
 		// Создаем объект с данными карточки
 		const product = {
-			id: productId,
+			id: Number(productId),
 			title: productTitle,
-			price: productPrice,
+			price: Number(productPrice),
 			image: productImage,
 			quantity: 1,
 		}
 		// Добавляем товар в корзину
 		addToCart(product)
 		// Изменяем счетчик товаров в корзине
-		changeCartCount()
+		changeCartCountInHeader()
 	}
 })
 
@@ -341,9 +551,13 @@ function setCards(cardsData) {
 			product.title
 		} />
         </div>
-        <h3 class="product-card__title">${product.title}</h3>
+        <h4 class="product-card__title">${product.title}</h4>
         <div class="product-card__bottom">
-          <span class="product-card__price">${product.price}₽</span>
+          <span class="product-card__price">
+						<span>
+						${product.price}
+						</span>
+					₽</span>
           <button class="product-card__button ${isInCart ? '--active' : ''}">
             <span></span>
           </button>
@@ -352,11 +566,18 @@ function setCards(cardsData) {
 		// Добавляем карточку товара в блок
 		catalogProducts.insertAdjacentHTML('beforeend', productCard)
 	})
-	changeCartCount()
+	changeCartCountInHeader()
 	catalogProductsCount.textContent = cardsData.length
 }
 
 // Корзина
-function changeCartCount() {
-	cartCount.textContent = cartData.length
+function changeCartCountInHeader() {
+	const totalQuantity = cartData.reduce(
+		(acc, product) => acc + product.quantity,
+		0
+	)
+	cartCount.textContent = totalQuantity
+	return totalQuantity
 }
+
+cartButton.addEventListener('click', () => renderCart(cartData))

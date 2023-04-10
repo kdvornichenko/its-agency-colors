@@ -79,7 +79,7 @@ $slider-dot-bg: #fff;
 			}
 		}
 		&-prev {
-			transform: rotate(180deg);
+			rotate: 180deg;
 		}
 		&-hidden {
 			opacity: 0;
@@ -90,7 +90,7 @@ $slider-dot-bg: #fff;
 		display: flex;
 		gap: 8px;
 		padding: 13px 29px;
-		background: rgba(0, 0, 0, 0.4);
+		background-color: rgba($color: #000000, $alpha: 0.4);
 		border-radius: 16px;
 		position: absolute;
 		bottom: 39px;
