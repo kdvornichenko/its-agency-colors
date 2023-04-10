@@ -27,6 +27,10 @@ body {
 	-webkit-tap-highlight-color: transparent;
 }
 
+a {
+	-webkit-tap-highlight-color: $light-gray;
+}
+
 // Conntainer
 [class*='__container'] {
 	width: 100%;
